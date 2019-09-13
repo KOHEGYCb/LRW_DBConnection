@@ -6,15 +6,67 @@ package connecttodb;
  */
 public class Strings {
 
-    public String getSubName(String name, String findVar) {
-        return "Sub " + name + "(" + findVar + ", IOM)\n";
+    private String subName;
+    private String findVar;
+    private String[] sqlVarColumns;
+    private String tabName;
+    private String sqlFindColumn;
+
+    public Strings(String subName, String findVar, String[] sqlVarColumns, String tabName, String sqlFindColumn) {
+        this.subName = subName;
+        this.findVar = findVar;
+        this.sqlVarColumns = sqlVarColumns;
+        this.tabName = tabName;
+        this.sqlFindColumn = sqlFindColumn;
+    }
+    
+    
+    
+    public String getSubEmpty (){
+        return getSubName() + getInitVars() + getConnectionString() + getConnection() + "\n	'### TO DO: punch questions\n\n" + getSubEnd();
     }
 
-    public String getSubEnd() {
+    public String getFindVar() {
+        return findVar;
+    }
+
+    public void setFindVar(String findVar) {
+        this.findVar = findVar;
+    }
+
+    public String[] getSqlVarColumns() {
+        return sqlVarColumns;
+    }
+
+    public void setSqlVarColumns(String[] sqlVarColumns) {
+        this.sqlVarColumns = sqlVarColumns;
+    }
+
+    public String getTabName() {
+        return tabName;
+    }
+
+    public void setTabName(String tabName) {
+        this.tabName = tabName;
+    }
+
+    public String getSqlFindColumn() {
+        return sqlFindColumn;
+    }
+
+    public void setSqlFindColumn(String sqlFindColumn) {
+        this.sqlFindColumn = sqlFindColumn;
+    }
+
+    private String getSubName() {
+        return "Sub " + subName + "(" + findVar + ", IOM)\n";
+    }
+
+    private String getSubEnd() {
         return "End Sub";
     }
 
-    public String getInitVars(String[] sqlVarColumns) {
+    private String getInitVars() {
         String str = "	Dim objConnection, objRecordSet, sDatabase\n\n	Dim ";
         for (String sqlVar : sqlVarColumns) {
             str += "sql" + sqlVar.toUpperCase().charAt(0) + sqlVar.substring(1) + ", ";
@@ -25,16 +77,16 @@ public class Strings {
         return str;
     }
 
-    public String getConnectionString() {
+    private String getConnectionString() {
         return ""
                 + "	Set objConnection = CreateObject (\"ADODB.Connection\" )\n"
                 + "	Set objRecordset = CreateObject (\"ADODB.Recordset\" )\n"
                 + "	\n"
                 + "	'Set database connection string.\n"
-                + "	sDatabase = \"Provider=SQLOLEDB.1;Initial Catalog=surveydatalookup;Data Source=tcp:ram97st6l6.database.windows.net,1433;;Persist Security Info=False;User ID=surveydatalookupuser@ram97st6l6;Password=M6UHsdb+$?@!EGAD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30\"\n";
+                + "	sDatabase = \"" + service.getSDB() + "\"\n";
     }
 
-    public String getConnection(String tabName, String[] sqlVarColumns, String sqlFindColumn, String findVar) {
+    private String getConnection() {
         String str = "	objConnection.Open(sDatabase)\n	objRecordset.Open( \"select ";
 
         for (String sqlVar : sqlVarColumns) {
@@ -49,7 +101,7 @@ public class Strings {
         }
         str += "	Else\n";
         for (String sqlVar : sqlVarColumns) {
-            str += "		sql" + sqlVar.toUpperCase().charAt(0) + sqlVar.substring(1) + " = = NULL\n";
+            str += "		sql" + sqlVar.toUpperCase().charAt(0) + sqlVar.substring(1) + " = NULL\n";
         }
         str += "	End If\n	objRecordset.Close()\n";
         return str;
