@@ -1,0 +1,1 @@
+Provider=SQLOLEDB.1;Initial Catalog=surveydatalookup;Data Source=tcp:ram97st6l6.database.windows.net,1433;;Persist Security Info=False;User ID=surveydatalookupuser@ram97st6l6;Password=M6UHsdb+$?@!EGAD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30
