@@ -1,5 +1,6 @@
-package connecttodb;
+package main;
 
+import connecttodb.Strings;
 import questions.Question;
 import questions.SinglePunch;
 
@@ -8,7 +9,6 @@ import questions.SinglePunch;
  * @author Dmitry
  */
 public class Run {
-
     public static void main(String[] args) {
         String name = "getFromDB";
         String varFind = "ID";
